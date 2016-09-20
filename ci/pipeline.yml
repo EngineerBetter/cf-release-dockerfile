@@ -10,7 +10,8 @@ jobs:
   - get: cf-release-dockerfile
     trigger: true
   - task: do-the-thing
-    file: cf-release-dockerfile/ci/run
+    file: cf-release-dockerfile/ci/task.yml
+    privileged: true
   - put: cf-release-dockerhub
     params:
       build: bosh-lite-spiff-dockerfile
