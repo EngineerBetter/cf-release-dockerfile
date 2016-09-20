@@ -1,2 +1,5 @@
+#!/bin/bash
+
 dockerd &
+sleep 10
 docker ps
