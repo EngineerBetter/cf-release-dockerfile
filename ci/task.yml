@@ -1,0 +1,15 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: jpetazzo/dind
+    tag: latest
+
+inputs:
+  - name: bosh-lite-spiff-dockerhub
+  - name: cf-release
+  - name: cf-release-dockerfile
+
+run:
+  path: cf-release-dockerfile/ci/run

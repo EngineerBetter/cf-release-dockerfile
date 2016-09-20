@@ -1,0 +1,44 @@
+---
+jobs:
+- name: build
+  public: true
+  plan:
+  - get: bosh-lite-spiff-dockerhub
+    trigger: true
+  - get: cf-release
+    trigger: true
+  - get: cf-release-dockerfile
+    trigger: true
+  - task: do-the-thing
+    file: cf-release-dockerfile/ci/run
+  - put: cf-release-dockerhub
+    params:
+      build: bosh-lite-spiff-dockerfile
+
+resources:
+- name: cf-release
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-release.git
+    git_config:
+    - name: submodule.fetchJobs
+      value:  10
+
+- name: cf-release-dockerfile
+  type: git
+  source:
+    uri: https://github.com/EngineerBetter/cf-release-dockerfile.git
+
+- name: bosh-lite-spiff-dockerhub
+  type: docker-image
+  source:
+    repository: engineerbetter/bosh-lite-spiff
+    username: {{docker-user}}
+    password: {{docker-password}}
+
+- name: cf-release-dockerhub
+  type: docker-image
+  source:
+    repository: engineerbetter/cf-release
+    username: {{docker-user}}
+    password: {{docker-password}}
