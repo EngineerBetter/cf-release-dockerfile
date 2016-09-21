@@ -1,5 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
-dockerd &
-sleep 10
-docker ps
+set -e
+
+source /docker-lib.sh
+start_docker
+
+docker load -i bosh-lite-spiff-dockerhub/image
