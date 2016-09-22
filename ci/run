@@ -19,3 +19,4 @@ docker exec bosh bosh upload stemcell /stemcell.tgz
 docker exec bosh bosh upload release /release.tgz
 docker exec bosh /cf-release-git/scripts/generate-bosh-lite-dev-manifest
 docker commit bosh engineerbetter/cf-release
+docker exec bosh deploy
