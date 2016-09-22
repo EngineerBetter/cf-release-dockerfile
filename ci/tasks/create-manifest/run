@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+/usr/bin/start-bosh &
+
+pushd cf-release-git
+  mkdir cf-release
+  tar -xvf source.tar.gz -C cf-release --strip-components 1
+  ./cf-release/scripts/generate-bosh-lite-dev-manifest
+popd
+
+cp cf-release-git/cf-release/bosh-lite/deployments/cf.yml manifest/
+cp manifest/cf.yml manifest/cf-$(cat cf-release-git/version).yml

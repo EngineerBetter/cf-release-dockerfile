@@ -1,0 +1,47 @@
+---
+jobs:
+- name: create-manifest
+  public: true
+  plan:
+  - get: cf-release-git
+    trigger: true
+    params:
+      include_source_tarball: true
+  - get: cf-release-dockerfile
+    trigger: true
+  - get: bosh-lite-spiff-dockerhub
+    trigger: true
+  - task: create-manifest
+    file: cf-release-dockerfile/ci/tasks/create-manifest/task.yml
+    privileged: true
+  - put: manifest
+    params:
+      file: output/cf-*.yml
+
+resources:
+- name: cf-release-git
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: cf-release
+
+- name: cf-release-dockerfile
+  type: git
+  source:
+    uri: https://github.com/EngineerBetter/cf-release-dockerfile.git
+
+- name: bosh-lite-spiff-dockerhub
+  type: docker-image
+  source:
+    repository: engineerbetter/bosh-lite-spiff
+    username: {{docker-user}}
+    password: {{docker-password}}
+
+- name: manifest
+  type: s3
+  source:
+    bucket: bosh-lite-cf-manifests
+    region_name: eu-west-1
+    versioned_file: engineerbetter-jekyll-built.tar.gz
+    access_key_id: {{s3-access-key}}
+    secret_access_key: {{s3-secret-key}}
