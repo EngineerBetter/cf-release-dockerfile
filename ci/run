@@ -13,7 +13,7 @@ docker rm bosh || true
 docker create --name bosh --privileged engineerbetter/bosh-lite-spiff /usr/bin/start-bosh
 docker start bosh
 docker cp cf-release/release.tgz bosh:/release.tgz
-docker cp bosh-lite-stemcell/stemcell.tgz bosh12:/stemcell.tgz
+docker cp bosh-lite-stemcell/stemcell.tgz bosh:/stemcell.tgz
 docker cp cf-release-git/ bosh:/cf-release-git
 docker exec bosh bosh upload stemcell /stemcell.tgz
 docker exec bosh bosh upload release /release.tgz
