@@ -10,7 +10,7 @@ inputs:
   - name: bosh-lite-spiff-dockerhub
   - name: bosh-lite-stemcell
   - name: cf-release
-  - name: cf-release-git
+  - name: manifest
   - name: cf-release-dockerfile
 
 run:

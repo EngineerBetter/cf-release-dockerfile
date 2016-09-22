@@ -9,7 +9,7 @@ jobs:
       save: true
   - get: cf-release
     trigger: true
-  - get: cf-release-git
+  - get: manifest
     trigger: true
   - get: bosh-lite-stemcell
     trigger: true
@@ -20,14 +20,9 @@ jobs:
     privileged: true
   - put: cf-release-dockerhub
     params:
-      build: bosh-lite-spiff-dockerfile
+      import_file: deployed.tgz
 
 resources:
-- name: cf-release-git
-  type: git-fork
-  source:
-    uri: https://github.com/cloudfoundry/cf-release.git
-
 - name: cf-release
   type: bosh-io-release
   source:
@@ -39,7 +34,7 @@ resources:
     name: bosh-warden-boshlite-ubuntu-trusty-go_agent
 
 - name: cf-release-dockerfile
-  type: git-fork
+  type: git
   source:
     uri: https://github.com/EngineerBetter/cf-release-dockerfile.git
 
@@ -57,10 +52,11 @@ resources:
     username: {{docker-user}}
     password: {{docker-password}}
 
-resource_types:
-- name: git-fork
-  type: docker-image
+- name: manifest
+  type: s3
   source:
-    repository: engineerbetter/git-resource
-    params:
-      submodule_jobs: 343
+    bucket: bosh-lite-cf-manifests
+    region_name: eu-west-1
+    versioned_file: cf.yml
+    access_key_id: {{s3-access-key}}
+    secret_access_key: {{s3-secret-key}}

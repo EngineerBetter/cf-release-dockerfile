@@ -14,9 +14,9 @@ docker create --name bosh --privileged engineerbetter/bosh-lite-spiff /usr/bin/s
 docker start bosh
 docker cp cf-release/release.tgz bosh:/release.tgz
 docker cp bosh-lite-stemcell/stemcell.tgz bosh:/stemcell.tgz
-docker cp cf-release-git/ bosh:/cf-release-git
+docker cp manifest/cf.yml bosh:/cf.yml
 docker exec bosh bosh upload stemcell /stemcell.tgz
 docker exec bosh bosh upload release /release.tgz
-docker exec bosh /cf-release-git/scripts/generate-bosh-lite-dev-manifest
-docker commit bosh engineerbetter/cf-release
-docker exec bosh deploy
+docker exec bosh bosh deployment /cf.yml
+docker exec bosh bosh -n deploy
+docker export bosh -o deployed.tgz

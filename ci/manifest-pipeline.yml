@@ -16,7 +16,7 @@ jobs:
     privileged: true
   - put: manifest
     params:
-      file: output/cf-*.yml
+      file: manifest/cf-*.yml
 
 resources:
 - name: cf-release-git
@@ -42,6 +42,6 @@ resources:
   source:
     bucket: bosh-lite-cf-manifests
     region_name: eu-west-1
-    versioned_file: engineerbetter-jekyll-built.tar.gz
+    versioned_file: cf.yml
     access_key_id: {{s3-access-key}}
     secret_access_key: {{s3-secret-key}}
