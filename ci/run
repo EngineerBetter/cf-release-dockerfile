@@ -16,7 +16,11 @@ docker cp cf-release/release.tgz bosh:/release.tgz
 docker cp bosh-lite-stemcell/stemcell.tgz bosh:/stemcell.tgz
 docker cp manifest/cf.yml bosh:/cf.yml
 docker exec bosh bosh upload stemcell /stemcell.tgz
+docker exec rm -rf /stemcell.tgz
 docker exec bosh bosh upload release /release.tgz
+docker exec rm -rf /release.tgz
 docker exec bosh bosh deployment /cf.yml
 docker exec bosh bosh -n deploy
-docker export bosh -o deployed.tgz
+df -h
+docker export bosh -o ./deployed.tgz
+df -h
