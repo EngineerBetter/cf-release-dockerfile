@@ -5,6 +5,9 @@ set -ex
 source /docker-lib.sh
 start_docker
 
+mkdir -p test
+touch test.txt
+
 docker load -i bosh-lite-spiff-dockerhub/image
 docker tag "$(cat bosh-lite-spiff-dockerhub/image-id)" "$(cat bosh-lite-spiff-dockerhub/repository):$(cat bosh-lite-spiff-dockerhub/tag)"
 docker ps
@@ -12,15 +15,19 @@ docker images
 docker rm bosh || true
 docker create --name bosh --privileged engineerbetter/bosh-lite-spiff /usr/bin/start-bosh
 docker start bosh
-docker cp cf-release/release.tgz bosh:/release.tgz
+
 docker cp bosh-lite-stemcell/stemcell.tgz bosh:/stemcell.tgz
-docker cp manifest/cf.yml bosh:/cf.yml
 docker exec bosh bosh upload stemcell /stemcell.tgz
 docker exec bosh rm -rf /stemcell.tgz
+
+docker cp cf-release/release.tgz bosh:/release.tgz
 docker exec bosh bosh upload release /release.tgz
 docker exec bosh rm -rf /release.tgz
+
+docker cp manifest/cf.yml bosh:/cf.yml
 docker exec bosh bosh deployment /cf.yml
 docker exec bosh bosh -n deploy
+
 df -h
 docker export bosh -o ./deployed.tgz
 df -h
