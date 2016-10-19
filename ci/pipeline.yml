@@ -20,7 +20,7 @@ jobs:
     privileged: true
   - put: cf-release-dockerhub
     params:
-      import_file: deployed.tgz
+      import_file: tarball/deployed.tgz
 
 resources:
 - name: cf-release

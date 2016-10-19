@@ -12,6 +12,8 @@ inputs:
   - name: cf-release
   - name: manifest
   - name: cf-release-dockerfile
+outputs:
+  - name: tarball
 
 run:
   path: cf-release-dockerfile/ci/run
