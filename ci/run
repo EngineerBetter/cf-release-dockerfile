@@ -29,9 +29,7 @@ docker exec bosh bosh deployment /cf.yml
 docker exec bosh bosh -n deploy
 docker exec bosh bosh -n stop
 
-df -h
 docker export bosh -o ./tarball/deployed.tar
-pushd tarball
-  gzip deployed.tar
-popd
-df -h
+cd tarball
+gzip deployed.tar
+ls -lah
