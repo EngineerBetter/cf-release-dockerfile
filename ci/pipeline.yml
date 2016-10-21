@@ -18,9 +18,9 @@ jobs:
   - task: do-the-thing
     file: cf-release-dockerfile/ci/task.yml
     privileged: true
-  - put: cf-release-dockerhub
+  - put: exported-image
     params:
-      import_file: tarball/deployed.tar.gz
+      file: tarball/deployed.tar.gz
 
 resources:
 - name: cf-release
@@ -51,6 +51,15 @@ resources:
     repository: engineerbetter/cf-release
     username: {{docker-user}}
     password: {{docker-password}}
+
+- name: exported-image
+  type: s3
+  source:
+    bucket: bosh-lite-cf-manifests
+    region_name: eu-west-1
+    versioned_file: deployed.tar.gz
+    access_key_id: {{s3-access-key}}
+    secret_access_key: {{s3-secret-key}}
 
 - name: manifest
   type: s3
