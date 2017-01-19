@@ -26,10 +26,8 @@ docker exec bosh rm -rf /release.tgz
 
 docker cp manifest/cf.yml bosh:/cf.yml
 docker exec bosh bosh deployment /cf.yml
-docker exec bosh bosh -n deploy
-docker exec bosh bosh -n stop
 
-docker export bosh -o ./tarball/deployed.tar
+docker export bosh -o ./tarball/release-uploaded.tar
 cd tarball
-gzip deployed.tar
+gzip release-uploaded.tar
 ls -lah
