@@ -21,7 +21,7 @@ jobs:
   - aggregate:
     - put: compiled-release
       params:
-        file: compiled-release/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
+        file: cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
     - task: deploy-cf
       file: cf-release-dockerfile/ci/tasks/deploy-compiled-release/task.yml
       privileged: true
