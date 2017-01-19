@@ -15,12 +15,17 @@ jobs:
     trigger: true
   - get: cf-release-dockerfile
     trigger: true
-  - task: do-the-thing
-    file: cf-release-dockerfile/ci/task.yml
+  - task: compile-release
+    file: cf-release-dockerfile/ci/tasks/compile-release/task.yml
     privileged: true
-  - put: exported-image
-    params:
-      file: tarball/release-uploaded.tar.gz
+  - aggregate:
+    - put: compiled-release
+      params:
+        file: compiled-release/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
+    - task: deploy-cf
+      file: cf-release-dockerfile/ci/task.yml
+      privileged: true
+
 
 resources:
 - name: cf-release
@@ -51,6 +56,15 @@ resources:
 #     repository: engineerbetter/cf-release
 #     username: {{docker-user}}
 #     password: {{docker-password}}
+
+- name: compiled-release
+  type: s3
+  source:
+    bucket: bosh-lite-cf-manifests
+    region_name: eu-west-1
+    versioned_file: release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
+    access_key_id: {{s3-access-key}}
+    secret_access_key: {{s3-secret-key}}
 
 - name: exported-image
   type: s3

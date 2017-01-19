@@ -1,0 +1,19 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: amidos/dcind
+    tag: latest
+
+inputs:
+  - name: bosh-lite-spiff-dockerhub
+  - name: bosh-lite-stemcell
+  - name: cf-release
+  - name: manifest
+  - name: cf-release-dockerfile
+outputs:
+  - name: cf-release-compiled
+
+run:
+  path: cf-release-dockerfile/ci/tasks/compile-release/run
