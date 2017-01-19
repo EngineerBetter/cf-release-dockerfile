@@ -32,4 +32,4 @@ docker exec bosh bosh export release cf/251 ubuntu-trusty/3312.15
 
 docker exec bosh ls -lah
 
-docker cp bosh:/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz compiled-release/
+docker cp bosh:/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz cf-release-compiled/
