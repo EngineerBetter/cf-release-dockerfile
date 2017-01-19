@@ -16,4 +16,4 @@ outputs:
   - name: tarball
 
 run:
-  path: cf-release-dockerfile/ci/run
+  path: cf-release-dockerfile/ci/tasks/deploy-compiled-release/run
