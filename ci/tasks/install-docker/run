@@ -17,4 +17,4 @@ bosh -n deploy
 bosh vms
 curl http://api.bosh-lite.com/v2/info
 
-docker run -it --privileged engineerbetter/bosh-lite-spiff curl http://api.bosh-lite.com
+docker run --privileged engineerbetter/bosh-lite-spiff curl http://api.bosh-lite.com
