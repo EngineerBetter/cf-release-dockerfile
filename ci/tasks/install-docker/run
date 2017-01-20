@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 apt-get update
 wget -O docker.deb https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.13.0-0~ubuntu-trusty_amd64.deb
