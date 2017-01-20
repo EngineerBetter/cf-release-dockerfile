@@ -18,13 +18,31 @@ jobs:
   - task: compile-release
     file: cf-release-dockerfile/ci/tasks/compile-release/task.yml
     privileged: true
-  - aggregate:
-    - put: compiled-release
-      params:
-        file: cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
-    - task: deploy-cf
-      file: cf-release-dockerfile/ci/tasks/deploy-compiled-release/task.yml
-      privileged: true
+  - put: cf-release-compiled
+    params:
+      file: cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
+
+- name: use-cf-release-compiled
+  public: true
+  plan:
+  - get: cf-release-compiled
+    trigger: true
+    passed: [bake-release-uploaded]
+  - get: bosh-lite-spiff-dockerhub
+    passed: [bake-release-uploaded]
+    params:
+      save: true
+  - get: cf-release
+    passed: [bake-release-uploaded]
+  - get: manifest
+    passed: [bake-release-uploaded]
+  - get: bosh-lite-stemcell
+    passed: [bake-release-uploaded]
+  - get: cf-release-dockerfile
+    passed: [bake-release-uploaded]
+  - task: deploy-cf
+    file: cf-release-dockerfile/ci/tasks/deploy-cf-release-compiled/task.yml
+    privileged: true
 
 
 resources:
@@ -57,7 +75,7 @@ resources:
 #     username: {{docker-user}}
 #     password: {{docker-password}}
 
-- name: compiled-release
+- name: cf-release-compiled
   type: s3
   source:
     bucket: bosh-lite-cf-manifests
