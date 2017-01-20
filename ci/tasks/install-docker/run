@@ -9,6 +9,7 @@ rm docker.deb
 apt-get -fy install
 /etc/init.d/docker start
 
+/usr/bin/start-bosh
 bosh upload stemcell bosh-lite-stemcell/stemcell.tgz
 bosh upload release cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
 bosh deployment manifest/cf.yml
