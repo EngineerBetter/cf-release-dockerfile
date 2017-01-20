@@ -10,6 +10,7 @@ apt-get -fy install
 /etc/init.d/docker start
 
 /usr/bin/start-bosh &
+bosh_pid=$!
 bosh upload stemcell bosh-lite-stemcell/stemcell.tgz
 bosh upload release cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
 bosh deployment manifest/cf.yml
@@ -18,3 +19,4 @@ bosh vms
 curl http://api.bosh-lite.com/v2/info
 
 docker run --privileged engineerbetter/bosh-lite-spiff curl http://api.bosh-lite.com
+kill -9 $!
