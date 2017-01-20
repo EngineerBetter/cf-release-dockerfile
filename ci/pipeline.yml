@@ -1,6 +1,6 @@
 ---
 jobs:
-- name: bake-release-uploaded
+- name: compile-release
   public: true
   plan:
   - get: bosh-lite-spiff-dockerhub
@@ -22,26 +22,26 @@ jobs:
     params:
       file: cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
 
-- name: use-cf-release-compiled
+- name: install-docker
   public: true
   plan:
   - get: cf-release-compiled
     trigger: true
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
   - get: bosh-lite-spiff-dockerhub
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
     params:
       save: true
   - get: cf-release
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
   - get: manifest
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
   - get: bosh-lite-stemcell
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
   - get: cf-release-dockerfile
-    passed: [bake-release-uploaded]
+    passed: [compile-release]
   - task: deploy-cf
-    file: cf-release-dockerfile/ci/tasks/deploy-cf-release-compiled/task.yml
+    file: cf-release-dockerfile/ci/tasks/install-docker/task.yml
     privileged: true
 
 

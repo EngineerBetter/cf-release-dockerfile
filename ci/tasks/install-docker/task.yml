@@ -1,0 +1,17 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: engineerbetter/bosh-lite-spiff
+    tag: latest
+
+inputs:
+  - name: bosh-lite-stemcell
+  - name: cf-release
+  - name: manifest
+  - name: cf-release-dockerfile
+  - name: cf-release-compiled
+
+run:
+  path: cf-release-dockerfile/ci/tasks/install-docker/run
