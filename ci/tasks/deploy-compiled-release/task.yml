@@ -12,6 +12,7 @@ inputs:
   - name: cf-release
   - name: manifest
   - name: cf-release-dockerfile
+  - name: cf-release-compiled
 outputs:
   - name: tarball
 
