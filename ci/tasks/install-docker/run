@@ -19,4 +19,4 @@ bosh vms
 curl http://api.bosh-lite.com/v2/info
 
 docker run --privileged engineerbetter/bosh-lite-spiff curl http://api.bosh-lite.com
-kill -9 $!
+killall runsvdir-start
