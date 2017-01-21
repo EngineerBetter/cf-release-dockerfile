@@ -11,6 +11,7 @@ apt-get -fy install
 
 /usr/bin/start-bosh &
 bosh_pid=$!
+sleep 5
 bosh upload stemcell bosh-lite-stemcell/stemcell.tgz
 bosh upload release cf-release-compiled/release-cf-251-on-ubuntu-trusty-stemcell-3312.15.tgz
 bosh deployment manifest/cf.yml
