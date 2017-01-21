@@ -12,6 +12,7 @@ inputs:
   - name: manifest
   - name: cf-release-dockerfile
   - name: cf-release-compiled
+  - name: cf-converger
 
 run:
   path: cf-release-dockerfile/ci/tasks/install-docker/run
