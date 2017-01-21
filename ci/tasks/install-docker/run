@@ -19,7 +19,5 @@ bosh -n deploy
 bosh vms
 curl http://api.bosh-lite.com/v2/info
 
-docker create --name tests --privileged maven:3.3.9-jdk-8-alpine --env CF_USERNAME=admin --env CF_PASSWORD=admin --env CF_HOST=api.bosh-lite.com
-docker cp cf-converger/. tests:/tests/
-docker run --privileged  cd /tests/ && mvn verify
+docker run -it --privileged --rm --name tests -v cf-converger:/usr/src/code -w /usr/src/code maven:3.3.9-jdk-8-alpine mvn clean verify
 killall runsvdir-start
